@@ -34,14 +34,15 @@ If you want to access the VM using your own ssh key, insert your public key in c
 You can then bring up the box for configuring by issuing the following command:
 
 ```
+cd infra
 vagrant up|provision
 ```
 
 It will take about 20 minutes when it installs for the first time.
 
-## Fruity Time!
+# Fruity Time!
 
-At the end of the Ansible script, log on to the VM as the deploy user
+Once the Ansible script finishes, log on to the VM as the deploy user
 
 ```
 ssh deploy@33.33.33.45
@@ -54,10 +55,9 @@ make
 ```
 Flash the device with the resulting image built in _build/FruityMesh.hex
 
-
 # Contributing
 
-1. Fork it (https://github.com/ihassin/centos/fork)
+1. Fork it (https://github.com/ihassin/fruity-ubuntu-vm/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
