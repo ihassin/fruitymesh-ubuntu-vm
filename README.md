@@ -28,7 +28,19 @@ Vagrantfile assumes a base box named 'ubuntu/trusty64'.
 
 If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suite your needs.
 
-Once you have done that, you can ```ssh deploy@33.33.33.45``` with the password found in common/vars/main.yml
+The inventory file is set to load a DNS entry named 'fruity'. Make sure you /etc/hosts contains an entry for it. As an example:
+
+```
+    33.33.33.45	fruity
+```
+
+The IP must match the entry in the Vagrantfile:
+
+```
+    fruity.vm.network "private_network", ip: "33.33.33.45"
+```
+
+Once you have done that, you can ```ssh deploy@fruity``` with the password found in common/vars/main.yml
 If you want to access the VM using your own ssh key, insert your public key in common/templates/ssh_keys.pub
 
 You can then bring up the box for configuring by issuing the following command:

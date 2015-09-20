@@ -1,5 +1,5 @@
 ---
-- hosts: bluetooth
+- hosts: fruity
 
   roles:
     - { role: kamaln7.swapfile, swapfile_size: 1GB, swapfile_swappiness: 10 }
