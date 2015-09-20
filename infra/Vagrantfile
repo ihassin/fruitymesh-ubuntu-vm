@@ -13,19 +13,19 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
-  config.vm.define "bluetooth" do |web|
-    web.vm.hostname = "bt"
-    web.vm.network "private_network", ip: "33.33.33.45"
+  config.vm.define "fruity" do |fruity|
+    fruity.vm.hostname = "fruity"
+    fruity.vm.network "private_network", ip: "33.33.33.45"
 
-    web.vm.provision "ansible" do |ansible|
+    fruity.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.inventory_path = "inventory.ini"
       ansible.host_key_checking = false
       ansible.sudo = true
     end
 
-    web.vm.provider "virtualbox" do |provider|
-      provider.name = "Bluetooth"
+    fruity.vm.provider "virtualbox" do |provider|
+      provider.name = "fruity"
       provider.customize ["modifyvm", :id, "--memory", "1024"]
     end
 

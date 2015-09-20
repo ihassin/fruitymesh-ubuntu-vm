@@ -4,6 +4,4 @@
   roles:
     - { role: kamaln7.swapfile, swapfile_size: 1GB, swapfile_swappiness: 10 }
     - common
-#    - nickhammond.logrotate
-#    - joshualund.ruby-2_1
-    - bluetooth
+    - fruity
