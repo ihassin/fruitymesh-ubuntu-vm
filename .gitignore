@@ -1,0 +1,10 @@
+.DS_Store
+.bundle
+.idea/*
+.vagrant
+.teamcity/*
+*~
+*.box
+log/*
+**/*.log
+tmp/**/*
