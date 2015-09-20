@@ -1,0 +1,94 @@
+---
+  - name: Install needed packages for the app
+    apt: pkg={{item}} state=installed
+    with_items:
+      - build-essential
+      - libbluetooth-dev
+      - bluez
+      - rfkill
+      - bluetooth
+      - lib32z1
+      - lib32ncurses5
+      - unzip
+
+  - name: Create downloads directory
+    file: path=/home/{{user}}/downloads/ state=directory
+
+  - name: See if cross-compiler installed
+    stat: path=/usr/local/gcc-arm-none-eabi-4_9-2015q2
+    register: cc_installed
+
+  - name: See if cross-compiler copied
+    stat: path=/home/{{user}}/downloads/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2
+    register: cc_copied
+    when: not cc_installed.stat.exists
+
+  - name: Copy cross compiler
+    copy: src=gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/home/{{user}}/downloads/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2
+    when: not cc_installed.stat.exists and not cc_copied.stat.exists
+
+  - name: Unarchive the cross compiler
+    unarchive: src=/home/{{user}}/downloads/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/usr/local/ copy=no mode="u=rwx,g=rwx,o=rwx"
+    when: not cc_installed.stat.exists
+
+  - name: See if Jlink copied
+    stat: path=/home/{{user}}/downloads/jlink_5.2.4_x86_64.deb
+    register: jlink_copied
+
+  - name: Copy JLink
+    copy: src=jlink_5.2.4_x86_64.deb dest=/home/{{user}}/downloads
+    when: not jlink_copied.stat.exists
+
+  - name: Install JLink
+    shell: sudo dpkg -i /home/{{user}}/downloads/jlink_5.2.4_x86_64.deb
+
+  - name: Get fruitymesh-devenv
+    git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
+
+  - name: Create jlink symlink
+    file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link
+
+  - name: Remove notice from sdk directory
+    file: path="{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here" state=absent
+
+  - name: Create EHAL symlink
+    file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS state=link
+
+  - name: See if SDK was downloaded
+    stat: path=/home/deploy/downloads/nRF51_SDK_9.0.0_2e23562.zip
+    register: sdk_zip
+
+  - name: Download the SDK
+    get_url: url=https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v9.x.x/nRF51_SDK_9.0.0_2e23562.zip dest=/home/{{user}}/downloads
+    when: not sdk_zip.stat.exists
+
+  - name: See if SDK was downloaded
+    stat: path={{nrf_sdk_9_0}}/components
+    register: sdk_unzipped
+
+  - name: Unzip the SDK
+    unarchive: src=/home/deploy/downloads/nRF51_SDK_9.0.0_2e23562.zip dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
+    when: not sdk_unzipped.stat.exists
+
+  - name: Get fruitymesh
+    git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true
+
+  - name: Create nrf51 sdk latest symlink
+    file: src={{nrf_sdk_9_0}} dest={{nrf}}/sdk/nrf51_sdk_latest state=link
+
+  - name: Create nrf52 sdk latest symlink
+    file: src={{nrf}}/sdk/nrf52_sdk_0_9_1 dest={{nrf}}/sdk/nrf52_sdk_latest state=link
+
+  - name: Create ehal latest symlink
+    file: src={{nrf}}/sdk/ehal_2015_09_08 dest={{nrf}}/sdk/ehal_latest state=link
+
+  - name: Fix path to GNU
+    lineinfile: dest={{nrf}}/sdk/nrf51_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line='GNU_INSTALL_ROOT := /usr/local/gcc-arm-none-eabi-4_9-2015q2'
+
+  - name: Copy patched header file
+    template: src=nrf_svc.h dest={{nrf}}/sdk/nrf_sdk_9_0/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}
+
+  - name: Set ownership
+    file: path={{item}} owner={{user}} group={{user}} recurse=yes
+    with_items:
+      - "{{nrf}}"

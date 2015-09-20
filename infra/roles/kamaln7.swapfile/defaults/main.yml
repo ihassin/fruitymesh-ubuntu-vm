@@ -1,0 +1,4 @@
+---
+swapfile_size: 1GB
+swapfile_swappiness: False
+swapfile_vfs_cache_pressure: False

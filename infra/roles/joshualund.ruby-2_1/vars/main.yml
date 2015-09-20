@@ -1,0 +1,6 @@
+---
+ruby_library_version:   "2.1.0"
+ruby_version:           "ruby-2.1.2"
+ruby_checksum:          "f22a6447811a81f3c808d1c2a5ce3b5f5f0955c68c9a749182feb425589e6635"
+ruby_download_location: "http://cache.ruby-lang.org/pub/ruby/2.1/{{ ruby_version }}.tar.gz"
+ruby_bundler_flags: "--no-document"
