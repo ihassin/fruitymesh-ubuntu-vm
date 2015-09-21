@@ -31,25 +31,42 @@
     unarchive: src={{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/usr/local/ copy=no mode="u=rwx,g=rwx,o=rwx"
     when: not cc_installed.stat.exists
 
+  - name: See if JLink is installed
+    shell: "dpkg -l | grep jlink"
+    ignore_errors: true
+    register: jlink_installed
+
   - name: See if Jlink copied
     stat: path={{downloads}}/jlink_5.2.4_x86_64.deb
     register: jlink_copied
+    when: jlink_installed.rc == 1
 
   - name: Copy JLink
     copy: src=jlink_5.2.4_x86_64.deb dest={{downloads}}
-    when: not jlink_copied.stat.exists
+    when: jlink_installed.rc == 1 and not jlink_copied.stat.exists
 
   - name: Install JLink
     shell: sudo dpkg -i {{downloads}}/jlink_5.2.4_x86_64.deb
+    when: jlink_installed.rc == 1
 
   - name: Update fruitymesh-devenv project from git
     git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
 
+  - name: See if Jlink link exists
+    stat: path={{nrf}}/tools/jlink
+    register: jlink_link
+
   - name: Create jlink symlink
     file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link
+    when: not jlink_link.stat.exists
+
+  - name: See if EHAL link exists
+    stat: path={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS
+    register: ehal_link
 
   - name: Create EHAL symlink
     file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS state=link
+    when: not ehal_link.stat.exists
 
   - name: See if SDK was downloaded
     stat: path={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip
@@ -91,8 +108,8 @@
       - "{{nrf}}"
       - "{{downloads}}"
 
-  - name: Remove notice from sdk directory
-    file: path="{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here" state=absent
-
-  - name: Remove notice from projects directory
-    file: path="{{nrf}}/projects/put your project folders here" state=absent
+  - name: Remove unneccessary files
+    file: path={{item}} state=absent
+    with_items:
+      - '"{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here"'
+      - '"{{nrf}}/projects/put your project folders here"'
