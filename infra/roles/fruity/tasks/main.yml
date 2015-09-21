@@ -1,5 +1,5 @@
 ---
-  - name: Install needed packages for the app
+  - name: Install needed packages for the development environment
     apt: pkg={{item}} state=installed
     with_items:
       - build-essential
@@ -12,65 +12,62 @@
       - unzip
 
   - name: Create downloads directory
-    file: path=/home/{{user}}/downloads/ state=directory
+    file: path="{{downloads}}" state=directory
 
   - name: See if cross-compiler installed
     stat: path=/usr/local/gcc-arm-none-eabi-4_9-2015q2
     register: cc_installed
 
   - name: See if cross-compiler copied
-    stat: path=/home/{{user}}/downloads/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2
+    stat: path="{{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2"
     register: cc_copied
     when: not cc_installed.stat.exists
 
   - name: Copy cross compiler
-    copy: src=gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/home/{{user}}/downloads/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2
+    copy: src=gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest={{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2
     when: not cc_installed.stat.exists and not cc_copied.stat.exists
 
   - name: Unarchive the cross compiler
-    unarchive: src=/home/{{user}}/downloads/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/usr/local/ copy=no mode="u=rwx,g=rwx,o=rwx"
+    unarchive: src={{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/usr/local/ copy=no mode="u=rwx,g=rwx,o=rwx"
     when: not cc_installed.stat.exists
 
   - name: See if Jlink copied
-    stat: path=/home/{{user}}/downloads/jlink_5.2.4_x86_64.deb
+    stat: path={{downloads}}/jlink_5.2.4_x86_64.deb
     register: jlink_copied
 
   - name: Copy JLink
-    copy: src=jlink_5.2.4_x86_64.deb dest=/home/{{user}}/downloads
+    copy: src=jlink_5.2.4_x86_64.deb dest={{downloads}}
     when: not jlink_copied.stat.exists
 
   - name: Install JLink
-    shell: sudo dpkg -i /home/{{user}}/downloads/jlink_5.2.4_x86_64.deb
+    shell: sudo dpkg -i {{downloads}}/jlink_5.2.4_x86_64.deb
 
-  - name: Get fruitymesh-devenv
+  - name: Update fruitymesh-devenv project from git
     git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
 
   - name: Create jlink symlink
     file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link
 
-  - name: Remove notice from sdk directory
-    file: path="{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here" state=absent
-
   - name: Create EHAL symlink
     file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS state=link
 
   - name: See if SDK was downloaded
-    stat: path=/home/deploy/downloads/nRF51_SDK_9.0.0_2e23562.zip
+    stat: path={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip
     register: sdk_zip
 
   - name: Download the SDK
-    get_url: url=https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v9.x.x/nRF51_SDK_9.0.0_2e23562.zip dest=/home/{{user}}/downloads
+    get_url: url=https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v9.x.x/nRF51_SDK_9.0.0_2e23562.zip dest={{downloads}}
     when: not sdk_zip.stat.exists
 
-  - name: See if SDK was downloaded
+  - name: See if SDK was installed
     stat: path={{nrf_sdk_9_0}}/components
     register: sdk_unzipped
 
-  - name: Unzip the SDK
-    unarchive: src=/home/deploy/downloads/nRF51_SDK_9.0.0_2e23562.zip dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
+  - name: Install the SDK
+    unarchive: src={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
     when: not sdk_unzipped.stat.exists
 
-  - name: Get fruitymesh
+  - name: Update fruitymesh project from git
     git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true
 
   - name: Create nrf51 sdk latest symlink
@@ -92,3 +89,10 @@
     file: path={{item}} owner={{user}} group={{user}} recurse=yes
     with_items:
       - "{{nrf}}"
+      - "{{downloads}}"
+
+  - name: Remove notice from sdk directory
+    file: path="{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here" state=absent
+
+  - name: Remove notice from projects directory
+    file: path="{{nrf}}/projects/put your project folders here" state=absent

@@ -1,5 +1,6 @@
 ---
 user: deploy
-nrf: "/home/{{user}}/nrf"
-sdk_zip: "/home/{{user}}/sdk.zip"
+home: "/home/{{user}}"
+nrf: "{{home}}/nrf"
 nrf_sdk_9_0: "{{nrf}}/sdk/nrf_sdk_9_0"
+downloads: "{{home}}/downloads"
