@@ -77,6 +77,16 @@ make
 
 And the flash the device with the resulting image built in _build/FruityMesh.hex using JLink.
 
+# Some testing
+
+Some ServerSpec tests accompany this VM, just for fun.
+Execute them using:
+
+```
+rake
+```
+
+
 # Contributing
 
 1. Fork it (https://github.com/ihassin/fruity-ubuntu-vm/fork)
