@@ -79,11 +79,29 @@ And the flash the device with the resulting image built in _build/FruityMesh.hex
 
 # Some testing
 
+## ServerSpec
+
 Some ServerSpec tests accompany this VM, just for fun.
 Execute them using:
 
 ```
 rake
+```
+
+## Cucumber
+
+Run cucumber and see this run:
+
+```
+Feature: As a ninja developer
+  I want to have a FruityMesh development environment ready
+  So that I can write the next mesh killer-app
+
+  Scenario: Having a VM to develop FruityMesh apps
+    Given I have a vm at "fruity"
+    When log on as "deploy"
+    Then I can build the "fruitymesh" image
+    And I see the result
 ```
 
 
