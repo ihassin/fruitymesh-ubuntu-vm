@@ -27,6 +27,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     fruity.vm.provider "virtualbox" do |provider|
       provider.name = "fruity"
       provider.customize ["modifyvm", :id, "--memory", "1024"]
+
+      provider.customize ['modifyvm', :id, '--usb', 'on']
+      # provider.customize ['usbfilter', 'add', '0', '--target', :id, '--name', 'edimax7718un', '--vendorid', '0x7392']
+      # provider.customize ["controlvm", :id, "usbattach", "p=0x1015;v=0x1366;s=0x000068b16d280353;l=0x14100000"]
     end
 
   end

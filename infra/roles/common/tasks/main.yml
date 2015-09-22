@@ -8,13 +8,10 @@
   - name: Install needed packages
     apt: pkg={{item}} state=installed
     with_items:
-      - cron
       - logrotate
       - curl
       - git
       - update-motd
-      - firefox
-      - xvfb
 
   - name: Check if anything needs autoremoving
     shell: apt-get -y --dry-run autoremove | grep -q "0 to remove"
@@ -34,16 +31,17 @@
     user: name={{user}} comment="deploy user" generate_ssh_key=yes ssh_key_bits=2048 state=present password={{password}} shell=/bin/bash
 
   - name: Copy ssh keys to the user's .ssh directory
-    action: template src=ita.pub dest=/home/{{user}}/.ssh/authorized_keys mode=0700 owner={{user}}
+    copy: src=ita.pub dest=/home/{{user}}/.ssh/authorized_keys mode=0700 owner={{user}} group={{user}}
 
   - name: Set {{user}} as sudoer
     lineinfile: dest=/etc/sudoers line="{{user}} ALL=(ALL) NOPASSWD ":" ALL"
 
-  - name: remove ubuntu's user
+  - name: Remove ubuntu's user
     user: name=ubuntu state=absent remove=yes
-
-  - name: Set vi preferences
-    action: template src=vimrc dest=/home/{{user}}/.vimrc owner={{user}}
 
   - name: FW Allow everything
     ufw: state=enabled policy=allow
+
+  - name: Set vi preferences
+    copy: src=vimrc dest=/home/{{user}}/.vimrc owner={{user}} group={{user}}
+
