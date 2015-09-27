@@ -10,5 +10,5 @@ Feature: As a ninja developer
 
     Examples:
     | provider      | host          |
-#    | "VirtualBox"  | "fruity-vb"   |
+    | "VirtualBox"  | "fruity-vb"   |
     | "Parallels"   | "fruity-pvm"  |

@@ -14,6 +14,7 @@ Given(/^I use "(.*?)" to create a vm at "(.*?)"$/) do |provider, host|
       FileUtils.copy("inventory.ini.vb", "inventory.ini")
   end
 
-  `vagrant up`
+  `rm -rf .vagrant`
+  `vagrant up --provider #{@provider}`
   `vagrant provision`
  end
