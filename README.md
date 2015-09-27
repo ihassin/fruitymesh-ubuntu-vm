@@ -53,7 +53,7 @@ You can then bring up the box for configuring by issuing the following command:
 
 ```
 cd infra
-vagrant up
+vagrant up  # Or, to be more explicit about VirtualBox: vagrant up --provider virtualbox
 ```
 
 It will take about 20 minutes when it installs for the first time.
