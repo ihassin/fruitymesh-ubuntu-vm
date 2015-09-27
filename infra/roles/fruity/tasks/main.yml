@@ -11,8 +11,10 @@
       - lib32ncurses5
       - unzip
 
-  - name: Create downloads directory
-    file: path="{{downloads}}" state=directory
+  - name: Create directories
+    file: path={{item}} state=directory
+    with_items:
+      - "{{downloads}}"
 
   - name: See if cross-compiler installed
     stat: path=/usr/local/gcc-arm-none-eabi-4_9-2015q2
@@ -36,7 +38,7 @@
     ignore_errors: true
     register: jlink_installed
 
-  - name: See if Jlink copied
+  - name: See if Jlink has already been copied
     stat: path={{downloads}}/jlink_5.2.4_x86_64.deb
     register: jlink_copied
     when: jlink_installed.rc == 1
@@ -52,21 +54,9 @@
   - name: Update fruitymesh-devenv project from git
     git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
 
-  - name: See if Jlink link exists
+  - name: See if Jlink symlink exists
     stat: path={{nrf}}/tools/jlink
     register: jlink_link
-
-  - name: Create jlink symlink
-    file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link
-    when: not jlink_link.stat.exists
-
-  - name: See if EHAL link exists
-    stat: path={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS
-    register: ehal_link
-
-  - name: Create EHAL symlink
-    file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS state=link
-    when: not ehal_link.stat.exists
 
   - name: See if SDK was downloaded
     stat: path={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip
@@ -84,14 +74,15 @@
     unarchive: src={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
     when: not sdk_unzipped.stat.exists
 
+  - name: See if EHAL link exists
+    stat: path={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS
+    register: ehal_link
+
   - name: Update fruitymesh project from git
     git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true
 
   - name: Create nrf51 sdk latest symlink
     file: src={{nrf_sdk_9_0}} dest={{nrf}}/sdk/nrf51_sdk_latest state=link
-
-  - name: Create nrf52 sdk latest symlink
-    file: src={{nrf}}/sdk/nrf52_sdk_0_9_1 dest={{nrf}}/sdk/nrf52_sdk_latest state=link
 
   - name: Create ehal latest symlink
     file: src={{nrf}}/sdk/ehal_2015_09_08 dest={{nrf}}/sdk/ehal_latest state=link
@@ -101,6 +92,14 @@
 
   - name: Copy patched header file
     template: src=nrf_svc.h dest={{nrf}}/sdk/nrf_sdk_9_0/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}
+
+  - name: Create jlink symlink
+    file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link
+    when: not jlink_link.stat.exists
+
+  - name: Create EHAL symlink
+    file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_latest/ARM/CMSIS state=link
+    when: not ehal_link.stat.exists
 
   - name: Set ownership
     file: path={{item}} owner={{user}} group={{user}} recurse=yes
