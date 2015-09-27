@@ -13,10 +13,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "parallels/ubuntu-14.04"
 
-  config.vm.define "fruity" do |fruity|
-    fruity.vm.hostname = "fruity"
-    fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
-#    fruity.vm.network "private_network", ip: "33.33.33.56" # Parallels version
+  config.vm.define "fruity-pvm" do |fruity|
+    fruity.vm.hostname = "fruity-pvm"
 
     fruity.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
@@ -26,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     fruity.vm.provider "parallels" do |provider|
-      provider.name = "fruity"
+      provider.name = "fruity-pvm"
     end
 
   end

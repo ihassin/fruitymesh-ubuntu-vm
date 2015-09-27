@@ -13,8 +13,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
-  config.vm.define "fruity" do |fruity|
-    fruity.vm.hostname = "fruity"
+  config.vm.define "fruity-vb" do |fruity|
+    fruity.vm.hostname = "fruity-vb"
     fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
 #    fruity.vm.network "private_network", ip: "33.33.33.56" # Parallels version
 
@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     fruity.vm.provider "virtualbox" do |provider|
-      provider.name = "fruity"
+      provider.name = "fruity-vb"
       provider.customize ["modifyvm", :id, "--memory", "1024"]
 
       provider.customize ['modifyvm', :id, '--usb', 'on']

@@ -1,0 +1,2 @@
+[fruity]
+fruity-vb
