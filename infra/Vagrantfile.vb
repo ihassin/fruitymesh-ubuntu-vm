@@ -16,7 +16,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "fruity-vb" do |fruity|
     fruity.vm.hostname = "fruity-vb"
     fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
-#    fruity.vm.network "private_network", ip: "33.33.33.56" # Parallels version
 
     fruity.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
