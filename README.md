@@ -1,4 +1,4 @@
-# FruityMesh dev VM provisioning
+# FruityMesh dev VM provisioning with Vagrant using VirtualBox and/or Parallels
 
 The roles are
 
@@ -22,9 +22,11 @@ git clone https://github.com/ihassin/fruity-ubuntu-vm.git
 * Please install Vagrant from [here](https://docs.vagrantup.com/v2/installation).
 * Please install Ansible from [here](http://docs.ansible.com/ansible/intro_installation.html#getting-ansible).
 
+* If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en)
+
 # Provisioning the VM
 
-*VirtualBox* and *Parallels" are supported.
+*VirtualBox* and *Parallels* are supported.
 
 To use VirtualBox:
 
@@ -44,7 +46,6 @@ cp inventory.ini.pvm inventory.ini
 
 Vagrantfile assumes a base box named 'parallels/ubuntu-14.04'.
 
-
 If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suite your needs.
 
 ## Changing the ip address
@@ -53,10 +54,11 @@ The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox)
 
 ```
 33.33.33.55	fruity-vb		# VirtualBox version
-33.33.33.56	fruity-p		# Parallels version
 ```
 
-The IP must match the entry in the Vagrantfile:
+(Parallels will give you its box's IP as it's loading)
+
+The IP must match the entry in the Virtualox Vagrantfile:
 
 ```
     fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
@@ -73,7 +75,9 @@ You can then bring up the box for configuring by issuing the following command:
 
 ```
 cd infra
-vagrant up  # Or, to be more explicit about VirtualBox: vagrant up --provider virtualbox and vagrant up --provider parallels
+vagrant up --provider virtualbox
+# or
+vagrant up --provider parallels
 ```
 
 It will take about 20 minutes when it installs for the first time.
