@@ -130,7 +130,6 @@ Feature: As a ninja developer
     | "Parallels"   | "fruity-pvm"  |
 ```
 
-
 # Contributing
 
 1. Fork it (https://github.com/ihassin/fruity-ubuntu-vm/fork)
