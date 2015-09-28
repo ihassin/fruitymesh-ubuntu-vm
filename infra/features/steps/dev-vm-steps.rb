@@ -8,12 +8,13 @@ end
 
 Then(/^I can build the "(.*?)" image$/) do |project|
   @project = project
-  result = run_remote("ssh #{@user}@#{@host} && cd nrf/projects/#{project} && make clean && make")
-  expect $?.success? == true
+  result = run_remote("cd nrf/projects/#{project} && make clean && make")
+  expect(result).to match(/FruityMesh.hex/)
 end
 
 Then(/^I see the result$/) do
-run_remote("ls nrf/projects/#{@project}/_build/FruityMesh.hex", true)
+  result = run_remote("ls nrf/projects/#{@project}/_build/FruityMesh.hex")
+  expect(result).to match(/FruityMesh.hex/)
 end
 
 def run_remote(command, verbose = false)

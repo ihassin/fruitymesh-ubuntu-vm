@@ -2,7 +2,7 @@ Given(/^I use "(.*?)" to create a vm at "(.*?)"$/) do |provider, host|
   @host = host
   @provider = provider.downcase
 
-  `vagrant halt`
+  # `vagrant halt`
 
   case @provider
     when 'parallels'
@@ -14,7 +14,7 @@ Given(/^I use "(.*?)" to create a vm at "(.*?)"$/) do |provider, host|
       FileUtils.copy("inventory.ini.vb", "inventory.ini")
   end
 
-  `rm -rf .vagrant`
-  `vagrant up --provider #{@provider}`
+  # `rm -rf .vagrant`
+  # `vagrant up --provider #{@provider}`
   `vagrant provision`
  end

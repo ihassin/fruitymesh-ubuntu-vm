@@ -11,10 +11,11 @@ VAGRANTFILE_API_VERSION = "2"
 # end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "parallels/ubuntu-14.04"
+  config.vm.box = "ubuntu/trusty64"
 
-  config.vm.define "fruity-pvm" do |fruity|
-    fruity.vm.hostname = "fruity-pvm"
+  config.vm.define "fruity-vb" do |fruity|
+    fruity.vm.hostname = "fruity-vb"
+    fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
 
     fruity.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
@@ -23,8 +24,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.sudo = true
     end
 
-    fruity.vm.provider "parallels" do |provider|
-      provider.name = "fruity-pvm"
+    fruity.vm.provider "virtualbox" do |provider|
+      provider.name = "fruity-vb"
+      provider.customize ["modifyvm", :id, "--memory", "1024"]
+
+      provider.customize ['modifyvm', :id, '--usb', 'on']
+      # provider.customize ['usbfilter', 'add', '0', '--target', :id, '--name', 'edimax7718un', '--vendorid', '0x7392']
+      # provider.customize ["controlvm", :id, "usbattach", "p=0x1015;v=0x1366;s=0x000068b16d280353;l=0x14100000"]
     end
 
   end
