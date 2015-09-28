@@ -61,7 +61,7 @@ The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox)
 The IP must match the entry in the Virtualox Vagrantfile:
 
 ```
-    fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
+fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
 ```
 
 ## Providing your own SSH public key to access the VM
@@ -101,6 +101,11 @@ make
 ```
 
 And the flash the device with the resulting image built in _build/FruityMesh.hex using JLink.
+JLink can be found in ~/nrf/tools.
+
+## Flashing using VirtualBox
+It's hard to get proper USB support for VirtualBox images, so a quick and dirty way is to copy the resulting hex file to the shared directory on your host machine.
+Do this by copying to /vagrant
 
 # Some testing
 
