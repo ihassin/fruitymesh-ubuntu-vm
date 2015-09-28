@@ -24,22 +24,42 @@ git clone https://github.com/ihassin/fruity-ubuntu-vm.git
 
 # Provisioning the VM
 
+*VirtualBox* and *Parallels" are supported.
+
+To use VirtualBox:
+
+```
+cp Vagrantfile.vb Vagrantfile
+cp inventory.ini.vb inventory.ini
+```
 Vagrantfile assumes a base box named 'ubuntu/trusty64'.
+
+
+To use Parallels:
+
+```
+cp Vagrantfile.pvm Vagrantfile
+cp inventory.ini.pvm inventory.ini
+```
+
+Vagrantfile assumes a base box named 'parallels/ubuntu-14.04'.
+
 
 If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suite your needs.
 
 ## Changing the ip address
 
-The inventory file is set to load a DNS entry named 'fruity'. Make sure you /etc/hosts contains an entry for it. As an example:
+The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox) and/or 'fruity-p' (For Parallels) . Make sure you /etc/hosts contains an entry for it. As an example:
 
 ```
-    33.33.33.45	fruity
+33.33.33.55	fruity-vb		# VirtualBox version
+33.33.33.56	fruity-p		# Parallels version
 ```
 
 The IP must match the entry in the Vagrantfile:
 
 ```
-    fruity.vm.network "private_network", ip: "33.33.33.45"
+    fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
 ```
 
 ## Providing your own SSH public key to access the VM
@@ -53,7 +73,7 @@ You can then bring up the box for configuring by issuing the following command:
 
 ```
 cd infra
-vagrant up  # Or, to be more explicit about VirtualBox: vagrant up --provider virtualbox
+vagrant up  # Or, to be more explicit about VirtualBox: vagrant up --provider virtualbox and vagrant up --provider parallels
 ```
 
 It will take about 20 minutes when it installs for the first time.
@@ -66,12 +86,13 @@ If you want to access the VM using your own ssh key, insert your public key in c
 Once the Ansible script finishes running, log on to the VM as the deploy user
 
 ```
-ssh deploy@fruity
+ssh deploy@fruity-vb # or deploy@fruity-p
 ```
 and attempt to build the [FruityMesh image](https://github.com/mwaylabs/fruitymesh) for the NRF51 by issuing:
 
 ```
 cd nrf/projects/fruitymesh
+make clean
 make
 ```
 
@@ -97,11 +118,16 @@ Feature: As a ninja developer
   I want to have a FruityMesh development environment ready
   So that I can write the next mesh killer-app
 
-  Scenario: Having a VM to develop FruityMesh apps
-    Given I have a vm at "fruity"
+  Scenario Outline: Having a VirtualBox Ubuntu VM to develop FruityMesh apps
+    Given I use <provider> to create a vm at <host>
     When log on as "deploy"
     Then I can build the "fruitymesh" image
     And I see the result
+
+    Examples:
+    | provider      | host          |
+    | "VirtualBox"  | "fruity-vb"   |
+    | "Parallels"   | "fruity-pvm"  |
 ```
 
 
