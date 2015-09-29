@@ -139,6 +139,26 @@ Feature: As a ninja developer
     | "Parallels"   | "fruity-pvm"  |
 ```
 
+# Comminicating with the device
+
+## Minicom
+
+This VM comes with Minicom to allow you to communicate with the device over serial port.
+Establish communication using:
+
+```
+ sudo minicom --device /dev/ttyACM0 --b 38400
+```
+
+## screen
+
+This VM comes with screen to allow you to communicate with the device over serial port.
+Establish communication using:
+
+```
+ sudo screen /dev/ttyACM0 38400
+```
+
 # Contributing
 
 1. Fork it (https://github.com/ihassin/fruity-ubuntu-vm/fork)

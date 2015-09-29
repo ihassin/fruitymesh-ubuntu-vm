@@ -10,6 +10,8 @@
       - lib32z1
       - lib32ncurses5
       - unzip
+      - minicom
+      - screen
 
   - name: Create directories
     file: path={{item}} state=directory
