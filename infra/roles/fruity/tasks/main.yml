@@ -12,6 +12,8 @@
       - unzip
       - minicom
       - screen
+      - binutils-avr
+      - binutils-arm-none-eabi
 
   - name: Create directories
     file: path={{item}} state=directory
