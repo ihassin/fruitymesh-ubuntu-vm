@@ -21,8 +21,10 @@ git clone https://github.com/ihassin/fruity-ubuntu-vm.git
 * Please install VirtualBox from [here](https://www.virtualbox.org/wiki/Downloads).
 * Please install Vagrant from [here](https://docs.vagrantup.com/v2/installation).
 * Please install Ansible from [here](http://docs.ansible.com/ansible/intro_installation.html#getting-ansible).
+* Please install the Vagrant-Ansible plugin from [here](https://github.com/Parallels/vagrant-parallels)
 
 * If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en)
+* Please install the Vagrant-Parallels plugin from [here](https://github.com/Parallels/vagrant-parallels).
 
 # Provisioning the VM
 
