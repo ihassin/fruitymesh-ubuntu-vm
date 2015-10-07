@@ -52,7 +52,7 @@ If you want to change the VM's IP address, or networking in general, please edit
 
 ## Changing the ip address
 
-The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox) and/or 'fruity-p' (For Parallels) . Make sure you /etc/hosts contains an entry for it. As an example:
+The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox) and/or 'fruity-pvm' (For Parallels) . Make sure you /etc/hosts contains an entry for it. As an example:
 
 ```
 33.33.33.55	fruity-vb		# VirtualBox version
