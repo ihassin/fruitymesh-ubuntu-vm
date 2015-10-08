@@ -87,6 +87,14 @@ It will take about 20 minutes when it installs for the first time.
 Once you have done that, you can ```ssh deploy@fruity``` with the password found in common/vars/main.yml
 If you want to access the VM using your own ssh key, insert your public key in common/templates/ssh_keys.pub
 
+### Warning
+
+Please be aware that the deploy user has a blank password. Set one up:
+
+```
+passwd
+```
+
 # Fruity Time!
 
 Once the Ansible script finishes running, log on to the VM as the deploy user

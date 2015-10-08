@@ -111,7 +111,7 @@
       - "{{nrf}}"
       - "{{downloads}}"
 
-  - name: Remove unneccessary files
+  - name: Remove unnecessary files
     file: path={{item}} state=absent
     with_items:
       - '"{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here"'
