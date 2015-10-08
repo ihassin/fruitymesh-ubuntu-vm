@@ -1,20 +1,13 @@
 # NRF51 FruityMesh Ubuntu development VM provisioned with Vagrant, VirtualBox and Parallels
 
-The roles are
+Running this Ansible script in conjunction with Vagrant will set up a VM that contains all you need for [NRF51](https://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822) programming using the [FruityMesh BLE framework](https://github.com/mwaylabs/fruitymesh).
 
-- common: basic ubuntu
-- All that's needed to build FruityMesh on the NRF51 
-
-# git
-
-```
-git clone git@github.com:ihassin/fruitymesh-ubuntu-vm.git
-```
-or
-
-```
-git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
-```
+# General steps
+- Clone this repo
+- Customise Vagrant file, /etc/hosts and ssh keys
+- Run Vagrant up
+- ssh to vm
+- Start developing
 
 # Pre-requisites
 
@@ -24,6 +17,17 @@ git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
 
 * If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en).
 * And install the Vagrant-Parallels plugin from [here](https://github.com/Parallels/vagrant-parallels).
+
+# Cloning this repo
+
+```
+git clone git@github.com:ihassin/fruitymesh-ubuntu-vm.git
+```
+or
+
+```
+git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
+```
 
 # Provisioning the VM
 
