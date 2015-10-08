@@ -12,6 +12,7 @@
       - curl
       - git
       - update-motd
+      - vim
 
   - name: Check if anything needs autoremoving
     shell: apt-get -y --dry-run autoremove | grep -q "0 to remove"
