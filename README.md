@@ -27,6 +27,12 @@ git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
 
 # Provisioning the VM
 
+The infrastructure as code for these VMs is in the infra sub-directory, so:
+
+```
+cd infra
+```
+
 ## VirtualBox:
 
 ```
