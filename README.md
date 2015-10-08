@@ -1,4 +1,4 @@
-# FruityMesh dev VM provisioning with Vagrant using VirtualBox and/or Parallels
+# NRF51 FruityMesh Ubuntu development VM provisioned with Vagrant, VirtualBox and Parallels
 
 The roles are
 
@@ -8,12 +8,12 @@ The roles are
 # git
 
 ```
-git clone git@github.com:ihassin/fruity-ubuntu-vm.git
+git clone git@github.com:ihassin/fruitymesh-ubuntu-vm.git
 ```
 or
 
 ```
-git clone https://github.com/ihassin/fruity-ubuntu-vm.git
+git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
 ```
 
 # Pre-requisites
@@ -30,7 +30,7 @@ git clone https://github.com/ihassin/fruity-ubuntu-vm.git
 
 *VirtualBox* and *Parallels* are supported.
 
-To use VirtualBox:
+## VirtualBox:
 
 ```
 cp Vagrantfile.vb Vagrantfile
@@ -38,8 +38,7 @@ cp inventory.ini.vb inventory.ini
 ```
 Vagrantfile assumes a base box named 'ubuntu/trusty64'.
 
-
-To use Parallels:
+## Parallels:
 
 ```
 cp Vagrantfile.pvm Vagrantfile
@@ -47,6 +46,8 @@ cp inventory.ini.pvm inventory.ini
 ```
 
 Vagrantfile assumes a base box named 'parallels/ubuntu-14.04'.
+
+## Modify Vagrant file and /etc/hosts to contain the desired host name and IP address of your VM
 
 If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suite your needs.
 
@@ -84,8 +85,9 @@ vagrant up --provider parallels
 
 It will take about 20 minutes when it installs for the first time.
 
-Once you have done that, you can ```ssh deploy@fruity``` with the password found in common/vars/main.yml
-If you want to access the VM using your own ssh key, insert your public key in common/templates/ssh_keys.pub
+Once you have done that, you can ```ssh deploy@fruity-pvm``` or ```ssh deploy@fruity-vb```. At this time, deploy will not have a password. Change that quickly once you're on the VM!
+
+If you want to access the VM using your own ssh key, insert your public key in common/files/ssh_keys.pub, or copy it in manually to ~deploy/.ssh/authorized_keys. If you copy it manually, it will be lost the next time you rebuild the VM, so do it once and for all in the Ansible script.
 
 ### Warning
 
@@ -100,7 +102,7 @@ passwd
 Once the Ansible script finishes running, log on to the VM as the deploy user
 
 ```
-ssh deploy@fruity-vb # or deploy@fruity-p
+ssh deploy@fruity-vb # or deploy@fruity-pvm
 ```
 and attempt to build the [FruityMesh image](https://github.com/mwaylabs/fruitymesh) for the NRF51 by issuing:
 
@@ -117,7 +119,10 @@ JLink can be found in ~/nrf/tools.
 It's hard to get proper USB support for VirtualBox images, so a quick and dirty way is to copy the resulting hex file to the shared directory on your host machine.
 Do this by copying to /vagrant
 
-# Some testing
+## Flashing using Parallels
+Plug in the device while the Parallels UI is foremost, and it will ask you where to attach the USB port to. Select the VM and you'll have access to run JLink.
+
+# Tesing - ServerSpec and Cucumber
 
 ## ServerSpec
 
@@ -149,7 +154,7 @@ Feature: As a ninja developer
     | "Parallels"   | "fruity-pvm"  |
 ```
 
-# Comminicating with the device
+# Communicating with the device
 
 ## Minicom
 
