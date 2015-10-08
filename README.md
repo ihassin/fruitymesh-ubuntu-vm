@@ -22,7 +22,7 @@ git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
 * Install Vagrant from [here](https://docs.vagrantup.com/v2/installation).
 * Install Ansible from [here](http://docs.ansible.com/ansible/intro_installation.html#getting-ansible).
 
-* If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en)
+* If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en).
 * And install the Vagrant-Parallels plugin from [here](https://github.com/Parallels/vagrant-parallels).
 
 # Provisioning the VM
