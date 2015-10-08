@@ -18,17 +18,14 @@ git clone https://github.com/ihassin/fruitymesh-ubuntu-vm.git
 
 # Pre-requisites
 
-* Please install VirtualBox from [here](https://www.virtualbox.org/wiki/Downloads).
-* Please install Vagrant from [here](https://docs.vagrantup.com/v2/installation).
-* Please install Ansible from [here](http://docs.ansible.com/ansible/intro_installation.html#getting-ansible).
-* Please install the Vagrant-Ansible plugin from [here](https://github.com/Parallels/vagrant-parallels)
+* Install VirtualBox from [here](https://www.virtualbox.org/wiki/Downloads).
+* Install Vagrant from [here](https://docs.vagrantup.com/v2/installation).
+* Install Ansible from [here](http://docs.ansible.com/ansible/intro_installation.html#getting-ansible).
 
 * If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en)
-* Please install the Vagrant-Parallels plugin from [here](https://github.com/Parallels/vagrant-parallels).
+* And install the Vagrant-Parallels plugin from [here](https://github.com/Parallels/vagrant-parallels).
 
 # Provisioning the VM
-
-*VirtualBox* and *Parallels* are supported.
 
 ## VirtualBox:
 
