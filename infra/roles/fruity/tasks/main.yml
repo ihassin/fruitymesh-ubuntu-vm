@@ -95,7 +95,7 @@
     lineinfile: dest={{nrf}}/sdk/nrf51_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line='GNU_INSTALL_ROOT := /usr/local/gcc-arm-none-eabi-4_9-2015q2'
 
   - name: Copy patched header file
-    template: src=nrf_svc.h dest={{nrf}}/sdk/nrf_sdk_9_0/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}
+    copy: src=nrf_svc.h dest={{nrf}}/sdk/nrf51_sdk_latest/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}
 
   - name: Create jlink symlink
     file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link
