@@ -19,6 +19,7 @@
     file: path={{item}} state=directory
     with_items:
       - "{{downloads}}"
+      - "{{home}}/.bash"
 
   - name: See if cross-compiler installed
     stat: path=/usr/local/gcc-arm-none-eabi-4_9-2015q2
@@ -105,12 +106,6 @@
     file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_latest/ARM/CMSIS state=link
     when: not ehal_link.stat.exists
 
-  - name: Set ownership
-    file: path={{item}} owner={{user}} group={{user}} recurse=yes
-    with_items:
-      - "{{nrf}}"
-      - "{{downloads}}"
-
   - name: Remove unnecessary files
     file: path={{item}} state=absent
     with_items:
@@ -118,10 +113,20 @@
       - '"{{nrf}}/projects/put your project folders here"'
 
   - name: Add support for git-aware bash prompt
-    git: repo=git://github.com/jimeh/git-aware-prompt.git dest={{home}}/.bash accept_hostkey=true clone=no
+    git: repo=git://github.com/jimeh/git-aware-prompt.git dest={{home}}/.bash/git-aware-prompt accept_hostkey=true
 
   - name: Include it in bashrc
-    lineinfile: dest={{home}}/.bashrc line='export GITAWAREPROMPT=~/.bash/git-aware-prompt\nsource "${GITAWAREPROMPT}/main.sh"' insertbefore=BOF
+    lineinfile: dest={{home}}/.bashrc line='export GITAWAREPROMPT=~/.bash/git-aware-prompt' regexp='export GITAWAREPROMPT=~/.bash/git-aware-prompt'
+
+  - name: Include it in bashrc
+    lineinfile: dest={{home}}/.bashrc line='source ~/.bash/git-aware-prompt/main.sh' regexp='source ~/.bash/git-aware-prompt/main.sh'
 
   - name: Set the prompt
-    lineinfile: dest={{home}}/.bashrc line='export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "' insertafter=EOF
+    lineinfile: dest={{home}}/.bashrc line='export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "'
+
+  - name: Set ownership
+    file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
+    with_items:
+      - "{{nrf}}"
+      - "{{downloads}}"
+      - "{{home}}/.bash"
