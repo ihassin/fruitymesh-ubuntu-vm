@@ -189,6 +189,11 @@ Establish communication using:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+# Code of conduct
+
+Our code of conduct is [here](https://github.com/ihassin/fruitymesh-ubuntu-vm/blob/master/CODE_OF_CONDUCT.md)
+
 # License
 
 MIT
+
