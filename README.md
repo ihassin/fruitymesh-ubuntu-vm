@@ -1,6 +1,6 @@
-# NRF51 FruityMesh Ubuntu development VM provisioned with Vagrant, VirtualBox and Parallels
+# NRF51 & NRF52 FruityMesh Ubuntu development VM provisioned with Vagrant, VirtualBox and Parallels
 
-Running this Ansible script in conjunction with Vagrant will set up a VM that contains all you need for [NRF51](https://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822) programming using the [FruityMesh BLE framework](https://github.com/mwaylabs/fruitymesh).
+Running this Ansible script in conjunction with Vagrant will set up a VM that contains all you need for [NRF51](https://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822) and [NRF52](https://www.nordicsemi.com/Products/nRF52-Series-SoC) programming using the [FruityMesh BLE framework](https://github.com/mwaylabs/fruitymesh).
 
 # General steps
 - Clone this repo
