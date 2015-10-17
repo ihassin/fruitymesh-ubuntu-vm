@@ -63,21 +63,37 @@
     stat: path={{nrf}}/tools/jlink
     register: jlink_link
 
-  - name: See if SDK was downloaded
+  - name: See if SDK51 was downloaded
     stat: path={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip
     register: sdk_zip
 
-  - name: Download the SDK
+  - name: Download the SDK51
     get_url: url=https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v9.x.x/nRF51_SDK_9.0.0_2e23562.zip dest={{downloads}}
     when: not sdk_zip.stat.exists
 
-  - name: See if SDK was installed
+  - name: See if SDK51 was installed
     stat: path={{nrf_sdk_9_0}}/components
     register: sdk_unzipped
 
-  - name: Install the SDK
+  - name: Install the SDK51
     unarchive: src={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
     when: not sdk_unzipped.stat.exists
+
+  - name: See if SDK52 was downloaded
+    stat: path={{downloads}}/nRF52_SDK_0.9.2_dbc28c9.zip
+    register: sdk52_zip
+
+  - name: Download the SDK52
+    get_url: url=https://developer.nordicsemi.com/nRF52_SDK/nRF52_SDK_v0.x.x/nRF52_SDK_0.9.2_dbc28c9.zip dest={{downloads}}
+    when: not sdk52_zip.stat.exists
+
+  - name: See if SDK52 was installed
+    stat: path={{nrf52_sdk_9_0}}/components
+    register: sdk52_unzipped
+
+  - name: Install the SDK52
+    unarchive: src={{downloads}}/nRF52_SDK_0.9.2_dbc28c9.zip dest={{nrf52_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
+    when: not sdk52_unzipped.stat.exists
 
   - name: See if EHAL link exists
     stat: path={{nrf}}/sdk/ehal_2015_09_08/ARM/CMSIS
@@ -89,11 +105,17 @@
   - name: Create nrf51 sdk latest symlink
     file: src={{nrf_sdk_9_0}} dest={{nrf}}/sdk/nrf51_sdk_latest state=link
 
+  - name: Create nrf52 sdk latest symlink
+    file: src={{nrf52_sdk_9_0}} dest={{nrf}}/sdk/nrf52_sdk_latest state=link
+
   - name: Create ehal latest symlink
     file: src={{nrf}}/sdk/ehal_2015_09_08 dest={{nrf}}/sdk/ehal_latest state=link
 
   - name: Fix path to GNU
     lineinfile: dest={{nrf}}/sdk/nrf51_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line='GNU_INSTALL_ROOT := /usr/local/gcc-arm-none-eabi-4_9-2015q2'
+
+  - name: Fix path to GNU
+    lineinfile: dest={{nrf}}/sdk/nrf52_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line='GNU_INSTALL_ROOT := /usr/local/gcc-arm-none-eabi-4_9-2015q2'
 
   - name: Copy patched header file
     copy: src=nrf_svc.h dest={{nrf}}/sdk/nrf51_sdk_latest/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}
@@ -113,6 +135,7 @@
     file: path={{item}} state=absent
     with_items:
       - '"{{nrf}}/sdk/nrf_sdk_9_0/put_sdk_9_0_0 files here"'
+      - '"{{nrf}}/sdk/nrf52_sdk_9_0/put_nrf52_sdk_files here"'
       - '"{{nrf}}/projects/put your project folders here"'
 
   - name: Add support for git-aware bash prompt

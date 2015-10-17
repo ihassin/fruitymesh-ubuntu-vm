@@ -3,4 +3,5 @@ user: deploy
 home: "/home/{{user}}"
 nrf: "{{home}}/nrf"
 nrf_sdk_9_0: "{{nrf}}/sdk/nrf_sdk_9_0"
+nrf52_sdk_9_0: "{{nrf}}/sdk/nrf52_sdk_0_9_1"
 downloads: "{{home}}/downloads"
