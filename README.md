@@ -14,7 +14,6 @@ Running this Ansible script in conjunction with Vagrant will set up a VM that co
 * Install VirtualBox from [here](https://www.virtualbox.org/wiki/Downloads).
 * Install Vagrant from [here](https://docs.vagrantup.com/v2/installation).
 * Install Ansible from [here](http://docs.ansible.com/ansible/intro_installation.html#getting-ansible).
-
 * If you are using Parallels, download it from [here](http://trial.parallels.com/?lang=en&terr=en).
 * And install the Vagrant-Parallels plugin from [here](https://github.com/Parallels/vagrant-parallels).
 
@@ -169,7 +168,7 @@ This VM comes with Minicom to allow you to communicate with the device over seri
 Establish communication using:
 
 ```
- sudo minicom --device /dev/ttyACM0 --b 38400
+sudo minicom --device /dev/ttyACM0 --b 38400
 ```
 
 ## screen
@@ -178,7 +177,7 @@ This VM comes with screen to allow you to communicate with the device over seria
 Establish communication using:
 
 ```
- sudo screen /dev/ttyACM0 38400
+sudo screen /dev/ttyACM0 38400
 ```
 
 # Contributing
@@ -191,7 +190,7 @@ Establish communication using:
 
 # Code of conduct
 
-Our code of conduct is [here](https://github.com/ihassin/fruitymesh-ubuntu-vm/blob/master/CODE_OF_CONDUCT.md)
+Our code of conduct is [here](https://github.com/ihassin/fruitymesh-ubuntu-vm/blob/master/CODE_OF_CONDUCT.md).
 
 # License
 
