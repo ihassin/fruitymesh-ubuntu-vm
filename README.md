@@ -182,6 +182,10 @@ Establish communication using:
 sudo screen /dev/ttyACM0 38400
 ```
 
+# Experimenting with FruityMesh
+
+Check out my [modified ping example](https://github.com/ihassin/fruitymesh-ping) that programs an RGB LED using GPIO pins to show signal strength status of connected devices on the mesh.
+
 # Contributing
 
 1. Fork it (https://github.com/ihassin/fruity-ubuntu-vm/fork)
