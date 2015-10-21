@@ -2,6 +2,8 @@
 
 Running this Ansible script in conjunction with Vagrant will set up a VM that contains all you need for [NRF51](https://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822) and [NRF52](https://www.nordicsemi.com/Products/nRF52-Series-SoC) programming using the [FruityMesh BLE framework](https://github.com/mwaylabs/fruitymesh).
 
+Mac OS X users that want to develop from their Mac natively - please see [here](https://github.com/ihassin/fruitymesh-mac-osx).
+
 ![ansible](https://cloud.githubusercontent.com/assets/19006/10564465/5c29b77e-7583-11e5-91b8-de254a5d2992.gif)
 
 # General steps
