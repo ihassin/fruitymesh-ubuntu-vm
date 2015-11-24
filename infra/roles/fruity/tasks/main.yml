@@ -23,21 +23,24 @@
       - "{{home}}/.bash"
 
   - name: See if cross-compiler installed
-    stat: path=/usr/local/gcc-arm-none-eabi-4_9-2015q2
+    stat: path=/usr/local/{{toolchain}}
     register: cc_installed
 
   - name: See if cross-compiler copied
-    stat: path="{{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2"
+    stat: path="{{downloads}}/{{toolchain}}"
     register: cc_copied
     when: not cc_installed.stat.exists
 
   - name: Copy cross compiler
-    copy: src=gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest={{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2
+    copy: src={{toolchain}} dest={{downloads}}/{{toolchain}}
     when: not cc_installed.stat.exists and not cc_copied.stat.exists
 
   - name: Unarchive the cross compiler
-    unarchive: src={{downloads}}/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2 dest=/usr/local/ copy=no mode="u=rwx,g=rwx,o=rwx"
+    unarchive: src={{downloads}}/{{toolchain}} dest=/usr/local copy=no mode="u=rwx,g=rwx,o=rwx"
     when: not cc_installed.stat.exists
+
+  - name: Update fruitymesh-devenv project from git
+    git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
 
   - name: See if JLink is installed
     shell: "dpkg -l | grep jlink"
@@ -57,43 +60,40 @@
     shell: sudo dpkg -i {{downloads}}/jlink_5.2.4_x86_64.deb
     when: jlink_installed.rc == 1
 
-  - name: Update fruitymesh-devenv project from git
-    git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
-
   - name: See if Jlink symlink exists
     stat: path={{nrf}}/tools/jlink
     register: jlink_link
 
   - name: See if SDK51 was downloaded
-    stat: path={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip
+    stat: path={{downloads}}/{{nrf51_sdk}}
     register: sdk_zip
 
-  - name: Download the SDK51
-    get_url: url=https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v9.x.x/nRF51_SDK_9.0.0_2e23562.zip dest={{downloads}}
+  - name: Download SDK51
+    get_url: url=https://developer.nordicsemi.com/nRF51_SDK/nRF51_SDK_v9.x.x/{{nrf51_sdk}} dest={{downloads}}
     when: not sdk_zip.stat.exists
 
   - name: See if SDK51 was installed
     stat: path={{nrf_sdk_9_0}}/components
     register: sdk_unzipped
 
-  - name: Install the SDK51
-    unarchive: src={{downloads}}/nRF51_SDK_9.0.0_2e23562.zip dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
+  - name: Install SDK51
+    unarchive: src={{downloads}}/{{nrf51_sdk}} dest={{nrf_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
     when: not sdk_unzipped.stat.exists
 
   - name: See if SDK52 was downloaded
-    stat: path={{downloads}}/nRF52_SDK_0.9.2_dbc28c9.zip
+    stat: path={{downloads}}/{{nrf52_sdk}}
     register: sdk52_zip
 
-  - name: Download the SDK52
-    get_url: url=https://developer.nordicsemi.com/nRF52_SDK/nRF52_SDK_v0.x.x/nRF52_SDK_0.9.2_dbc28c9.zip dest={{downloads}}
+  - name: Download SDK52
+    get_url: url=https://developer.nordicsemi.com/nRF52_SDK/nRF52_SDK_v0.x.x/{{nrf52_sdk}} dest={{downloads}}
     when: not sdk52_zip.stat.exists
 
   - name: See if SDK52 was installed
     stat: path={{nrf52_sdk_9_0}}/components
     register: sdk52_unzipped
 
-  - name: Install the SDK52
-    unarchive: src={{downloads}}/nRF52_SDK_0.9.2_dbc28c9.zip dest={{nrf52_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
+  - name: Install SDK52
+    unarchive: src={{downloads}}/{{nrf52_sdk}} dest={{nrf52_sdk_9_0}} mode="u=rw,g=r,o=r" copy=no
     when: not sdk52_unzipped.stat.exists
 
   - name: See if EHAL link exists
@@ -112,11 +112,11 @@
   - name: Create ehal latest symlink
     file: src={{nrf}}/sdk/ehal_2015_09_08 dest={{nrf}}/sdk/ehal_latest state=link
 
-  - name: Fix path to GNU
-    lineinfile: dest={{nrf}}/sdk/nrf51_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line='GNU_INSTALL_ROOT := /usr/local/gcc-arm-none-eabi-4_9-2015q2'
+  - name: Fix 51 path to GNU
+    lineinfile: dest={{nrf}}/sdk/nrf51_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line="GNU_INSTALL_ROOT := /usr/local/{{toolchain_base}}"
 
-  - name: Fix path to GNU
-    lineinfile: dest={{nrf}}/sdk/nrf52_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line='GNU_INSTALL_ROOT := /usr/local/gcc-arm-none-eabi-4_9-2015q2'
+  - name: Fix 52 path to GNU
+    lineinfile: dest={{nrf}}/sdk/nrf52_sdk_latest/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line="GNU_INSTALL_ROOT := /usr/local/{{toolchain_base}}"
 
   - name: Copy patched header file
     copy: src=nrf_svc.h dest={{nrf}}/sdk/nrf51_sdk_latest/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}

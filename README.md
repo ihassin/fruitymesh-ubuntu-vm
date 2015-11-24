@@ -84,6 +84,14 @@ Placing your public key there will allow you to connect using ssh without the ne
 
 ## Bringing up the VM
 
+### Install the plugins:
+
+```
+vagrant plugin install vagrant-parallels
+# or
+vagrant plugin install virtualbox
+```
+
 You can then bring up the box for configuring by issuing the following command:
 
 ```
