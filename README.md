@@ -59,7 +59,7 @@ Vagrantfile assumes a base box named 'parallels/ubuntu-14.04'.
 
 ## Modify Vagrant file and /etc/hosts to contain the desired host name and IP address of your VM
 
-If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suite your needs.
+If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suit your needs.
 
 ## Changing the ip address
 
@@ -71,7 +71,7 @@ The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox)
 
 (Parallels will give you its box's IP as it's loading)
 
-The IP must match the entry in the Virtualox Vagrantfile:
+The IP must match the entry in the VirtualBox Vagrantfile:
 
 ```
 fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
