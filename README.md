@@ -140,7 +140,7 @@ Do this by copying to /vagrant
 ## Flashing using Parallels
 Plug in the device while the Parallels UI is foremost, and it will ask you where to attach the USB port to. Select the VM and you'll have access to run JLink.
 
-# Tesing - ServerSpec and Cucumber
+# Testing - ServerSpec and Cucumber
 
 ## ServerSpec
 
