@@ -107,17 +107,17 @@ Once you have done that, you can ```ssh deploy@fruity-pvm``` or ```ssh deploy@fr
 
 If you want to access the VM using your own ssh key, insert your public key in common/files/ssh_keys.pub, or copy it in manually to ~deploy/.ssh/authorized_keys. If you copy it manually, it will be lost the next time you rebuild the VM, so do it once and for all in the Ansible script.
 
-### Warning
-
-Please be aware that the deploy user has a blank password. Set one up:
-
-```
-passwd
-```
-
 # Fruity Time!
 
-Once the Ansible script finishes running, log on to the VM as the deploy user
+Once the Ansible script finishes running, the user 'deploy' you will be logging in with has a blank password. To set a new password:
+
+```
+vagrant ssh
+sudo passwd deploy
+exit
+```
+
+Now that your password is set, you can SSH in as deploy user:
 
 ```
 ssh deploy@fruity-vb # or deploy@fruity-pvm
