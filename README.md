@@ -59,7 +59,7 @@ Vagrantfile assumes a base box named 'parallels/ubuntu-14.04'.
 
 ## Modify Vagrant file and /etc/hosts to contain the desired host name and IP address of your VM
 
-If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suite your needs.
+If you want to change the VM's IP address, or networking in general, please edit Vagrantfile to suit your needs.
 
 ## Changing the ip address
 
@@ -71,7 +71,7 @@ The inventory file is set to load a DNS entry named 'fruity-vb' (for VirtualBox)
 
 (Parallels will give you its box's IP as it's loading)
 
-The IP must match the entry in the Virtualox Vagrantfile:
+The IP must match the entry in the VirtualBox Vagrantfile:
 
 ```
 fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
@@ -107,17 +107,17 @@ Once you have done that, you can ```ssh deploy@fruity-pvm``` or ```ssh deploy@fr
 
 If you want to access the VM using your own ssh key, insert your public key in common/files/ssh_keys.pub, or copy it in manually to ~deploy/.ssh/authorized_keys. If you copy it manually, it will be lost the next time you rebuild the VM, so do it once and for all in the Ansible script.
 
-### Warning
-
-Please be aware that the deploy user has a blank password. Set one up:
-
-```
-passwd
-```
-
 # Fruity Time!
 
-Once the Ansible script finishes running, log on to the VM as the deploy user
+Once the Ansible script finishes running, the user 'deploy' you will be logging in with has a blank password. To set a new password:
+
+```
+vagrant ssh
+sudo passwd deploy
+exit
+```
+
+Now that your password is set, you can SSH in as deploy user:
 
 ```
 ssh deploy@fruity-vb # or deploy@fruity-pvm
@@ -140,7 +140,7 @@ Do this by copying to /vagrant
 ## Flashing using Parallels
 Plug in the device while the Parallels UI is foremost, and it will ask you where to attach the USB port to. Select the VM and you'll have access to run JLink.
 
-# Tesing - ServerSpec and Cucumber
+# Testing - ServerSpec and Cucumber
 
 ## ServerSpec
 
