@@ -23,20 +23,20 @@
       - "{{home}}/.bash"
 
   - name: See if cross-compiler installed
-    stat: path=/usr/local/{{toolchain}}
+    stat: path=/usr/local/{{toolchain_base}}
     register: cc_installed
 
   - name: See if cross-compiler copied
-    stat: path="{{downloads}}/{{toolchain}}"
+    stat: path="{{downloads}}/{{toolchain_full}}"
     register: cc_copied
     when: not cc_installed.stat.exists
 
   - name: Copy cross compiler
-    copy: src={{toolchain}} dest={{downloads}}/{{toolchain}}
+    copy: src={{toolchain_full}} dest={{downloads}}/{{toolchain_full}}
     when: not cc_installed.stat.exists and not cc_copied.stat.exists
 
   - name: Unarchive the cross compiler
-    unarchive: src={{downloads}}/{{toolchain}} dest=/usr/local copy=no mode="u=rwx,g=rwx,o=rwx"
+    unarchive: src={{downloads}}/{{toolchain_full}} dest=/usr/local copy=no mode="u=rwx,g=rwx,o=rwx"
     when: not cc_installed.stat.exists
 
   - name: Update fruitymesh-devenv project from git
