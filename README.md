@@ -140,6 +140,19 @@ Do this by copying to /vagrant
 ## Flashing using Parallels
 Plug in the device while the Parallels UI is foremost, and it will ask you where to attach the USB port to. Select the VM and you'll have access to run JLink.
 
+# Working on the source code from your host machine
+
+Vagrant has an implicit file share with the host at /vagrant (on the VM).
+
+[Andy McWilliams](https://github.com/microcosm) says:
+To save people running VirtualBox having to copy files around, we can do the below as su.
+The added benefit is that now you can use whatever text editor you like on your host machine. The VM becomes a tool just for compiling.
+
+```
+mv /home/deploy/nrf/projects/ /vagrant/
+ln -s /vagrant/projects/ /home/deploy/nrf/projects
+```
+
 # Tesing - ServerSpec and Cucumber
 
 ## ServerSpec
