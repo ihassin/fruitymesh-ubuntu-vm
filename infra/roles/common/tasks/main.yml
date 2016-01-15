@@ -36,7 +36,7 @@
     copy: src=ssh_keys.pub dest=/home/{{user}}/.ssh/authorized_keys mode=0700 owner={{user}} group={{user}}
 
   - name: Set {{user}} as sudoer
-    lineinfile: "dest=/etc/sudoers state=present line='{{user}} ALL=(ALL) NOPASSWD : ALL'"
+    lineinfile: "dest=/etc/sudoers line='{{user}} ALL=(ALL) NOPASSWD : ALL'"
 
   - name: Remove ubuntu's user
     user: name=ubuntu state=absent remove=yes
