@@ -160,3 +160,6 @@
       - "{{nrf}}"
       - "{{downloads}}"
       - "{{home}}/.bash"
+
+  - name: Create symlink to shared folder in home
+    file: src={{vagrantShare}} dest={{shared}} owner={{user}} group={{user}} state=link
