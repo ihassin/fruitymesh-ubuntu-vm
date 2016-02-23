@@ -1,0 +1,34 @@
+---
+  - name: Install needed packages for Pi development
+    apt: pkg={{item}} state=installed
+    with_items:
+      - rsync
+      - cmake
+      - lib32z1
+      - lib32ncurses5
+      - lib32bz2-1.0
+      - libc6-i386
+      - lib32stdc++6
+
+  - name: Include toolchain in path
+    lineinfile: dest={{home}}/.bashrc line='export PATH=$PATH:$HOME/raspberrypi/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin' regexp='export PATH=$PATH:$HOME/raspberrypi/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin'
+
+  - name: Make directory for pi projects
+    file: path=/home/{{user}}/raspberrypi owner={{user}} state=directory
+
+  - name: Get tools
+    git: repo=https://github.com/raspberrypi/tools.git dest=/home/{{user}}/raspberrypi/tools accept_hostkey=true
+
+  - name: Make directory for pi dev
+    file: path=/home/{{user}}/raspberrypi/rootfs owner={{user}} state=directory
+
+  - name: Copy cmake file
+    copy: src=pi.cmake dest=/home/{{user}}/raspberrypi owner={{user}} group={{user}}
+
+  - name: Copy hello-world maker
+    copy: src=hello-world.sh dest=/home/{{user}}/raspberrypi owner={{user}} group={{user}} mode=u+x
+
+  - name: Set ownership of our files
+    file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
+    with_items:
+      - "{{home}}/raspberrypi"
