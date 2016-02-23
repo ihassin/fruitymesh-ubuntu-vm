@@ -17,9 +17,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     fruity.vm.hostname = "fruity-vb"
     fruity.vm.network "private_network", ip: "33.33.33.55" # VirtualBox version
 
-    fruity.vm.synced_folder ".", "/vagrant", disabled: true
-    fruity.vm.synced_folder "../data", "/vagrant", create: true, mount_options: ["dmode=777","fmode=777"]
-
     fruity.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.inventory_path = "inventory.ini"

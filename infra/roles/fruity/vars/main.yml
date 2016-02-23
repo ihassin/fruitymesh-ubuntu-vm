@@ -1,14 +1,12 @@
 ---
 user: deploy
 home: "/home/{{user}}"
-shared: "{{home}}/shared"
 nrf: "{{home}}/nrf"
 nrf_sdk_9_0: "{{nrf}}/sdk/nrf_sdk_9_0"
 nrf52_sdk_9_0: "{{nrf}}/sdk/nrf52_sdk_0_9_1"
 downloads: "{{home}}/downloads"
 nrf51_sdk: nRF51_SDK_9.0.0_2e23562.zip
 nrf52_sdk: nRF52_SDK_0.9.2_dbc28c9.zip
-vagrantShare: "/vagrant"
 
 toolchain_version: 20150609
 toolchain_base: gcc-arm-none-eabi-4_9-2015q2
