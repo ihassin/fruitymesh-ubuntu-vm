@@ -1,6 +1,7 @@
-# NRF51 & NRF52 FruityMesh Ubuntu development VM provisioned with Vagrant, VirtualBox and Parallels
+# Nordic NRF51 & NRF52 FruityMesh Ubuntu development VM provisioned with Vagrant, VirtualBox and Parallels
 
 Running this Ansible script in conjunction with Vagrant will set up a VM that contains all you need for [NRF51](https://www.nordicsemi.com/eng/Products/Bluetooth-Smart-Bluetooth-low-energy/nRF51822) and [NRF52](https://www.nordicsemi.com/Products/nRF52-Series-SoC) programming using the [FruityMesh BLE framework](https://github.com/mwaylabs/fruitymesh).
+It also sets up a development environment for targeting Raspberry Pi using a cross-compiler toolchain. Please see [below](#pi).
 
 Mac OS X users that want to develop from their Mac natively - please see [here](https://github.com/ihassin/fruitymesh-mac-osx).
 
@@ -209,6 +210,34 @@ sudo screen /dev/ttyACM0 38400
 
 Check out my [modified ping example](https://github.com/ihassin/fruitymesh-ping) that programs an RGB LED using GPIO pins to show signal strength status of connected devices on the mesh.
 
+# Raspberry Pi cross-compiler toolchain
+###<a name="pi">
+
+The Ansible script includes a role named 'pi' that sets up a cross compiler for the Raspberry Pi on the virtual machine.
+For it to have effect out of the box, please modify infra/roles/pi/vars/main.yml to have your Pi's user-name, IP and home directory for the demo project:
+
+```
+pi_user: pi
+pi_ip: 192.168.1.10
+pi_project: raspberrypi
+```
+
+It will place a file named 'hello-world.sh' in /home/deploy/<pi_project> that when run, will build and copy the binary to <pi_user>@<pi_ip>.
+In order for that to work, you will need to copy the deploy's public key to the pi by issuing:
+
+```
+ssh-copy-id <pi_user>@<pi_ip>
+```
+
+Once that is set up, please run:
+
+```
+./hello-world.sh
+```
+
+You should see the program compile and then run (on the Pi).
+Happy hacking!
+
 # Contributing
 
 1. Fork it (https://github.com/ihassin/fruity-ubuntu-vm/fork)
@@ -224,4 +253,3 @@ Our code of conduct is [here](https://github.com/ihassin/fruitymesh-ubuntu-vm/bl
 # License
 
 MIT
-

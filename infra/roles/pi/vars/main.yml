@@ -1,3 +1,6 @@
 ---
 user: deploy
 home: "/home/{{user}}"
+pi_user: pi
+pi_ip: 192.168.1.10
+pi_project: raspberrypi

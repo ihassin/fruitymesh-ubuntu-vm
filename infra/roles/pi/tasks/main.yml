@@ -11,24 +11,24 @@
       - lib32stdc++6
 
   - name: Include toolchain in path
-    lineinfile: dest={{home}}/.bashrc line='export PATH=$PATH:$HOME/raspberrypi/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin' regexp='export PATH=$PATH:$HOME/raspberrypi/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin'
+    lineinfile: dest={{home}}/.bashrc line='export PATH=$PATH:$HOME/{{pi_project}}/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin' regexp='export PATH=$PATH:$HOME/{{pi_project}}/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin'
 
   - name: Make directory for pi projects
-    file: path=/home/{{user}}/raspberrypi owner={{user}} state=directory
+    file: path=/home/{{user}}/{{pi_project}} owner={{user}} state=directory
 
   - name: Get tools
-    git: repo=https://github.com/raspberrypi/tools.git dest=/home/{{user}}/raspberrypi/tools accept_hostkey=true
+    git: repo=https://github.com/{{pi_project}}/tools.git dest=/home/{{user}}/{{pi_project}}/tools accept_hostkey=true
 
   - name: Make directory for pi dev
-    file: path=/home/{{user}}/raspberrypi/rootfs owner={{user}} state=directory
+    file: path=/home/{{user}}/{{pi_project}}/rootfs owner={{user}} state=directory
 
   - name: Copy cmake file
-    copy: src=pi.cmake dest=/home/{{user}}/raspberrypi owner={{user}} group={{user}}
+    template: src=pi.cmake dest=/home/{{user}}/{{pi_project}}/ owner={{user}} group={{user}}
 
   - name: Copy hello-world maker
-    copy: src=hello-world.sh dest=/home/{{user}}/raspberrypi owner={{user}} group={{user}} mode=u+x
+    template: src=hello-world.sh dest=/home/{{user}}/{{pi_project}}/ owner={{user}} group={{user}} mode="u+rwx"
 
   - name: Set ownership of our files
     file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
     with_items:
-      - "{{home}}/raspberrypi"
+      - "{{home}}/{{pi_project}}"
