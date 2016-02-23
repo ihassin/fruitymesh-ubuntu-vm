@@ -210,8 +210,8 @@ sudo screen /dev/ttyACM0 38400
 
 Check out my [modified ping example](https://github.com/ihassin/fruitymesh-ping) that programs an RGB LED using GPIO pins to show signal strength status of connected devices on the mesh.
 
-# Raspberry Pi cross-compiler toolchain
 ###<a name="pi">
+# Raspberry Pi cross-compiler toolchain
 
 The Ansible script includes a role named 'pi' that sets up a cross compiler for the Raspberry Pi on the virtual machine.
 For it to have effect out of the box, please modify infra/roles/pi/vars/main.yml to have your Pi's user-name, IP and home directory for the demo project:
@@ -222,7 +222,7 @@ pi_ip: 192.168.1.10
 pi_project: raspberrypi
 ```
 
-It will place a file named 'hello-world.sh' in /home/deploy/<pi_project> that when run, will build and copy the binary to <pi_user>@<pi_ip>.
+It will place a file named 'hello-world.sh' in /home/deploy/<pi_project> that when run, will build and copy the binary to ```<pi_user>@<pi_ip>```.
 In order for that to work, you will need to copy the deploy's public key to the pi by issuing:
 
 ```
