@@ -19,6 +19,12 @@
   - name: Get tools
     git: repo=https://github.com/{{pi_project}}/tools.git dest=/home/{{user}}/{{pi_project}}/tools accept_hostkey=true
 
+  - name: Get wiringPi
+    git: repo=git://git.drogon.net/wiringPi dest=/home/{{user}}/{{pi_project}}/tools/wiringPi accept_hostkey=true
+
+  - name: Build wiringPi
+    shell: cd /home/{{user}}/{{pi_project}}/tools/wiringPi && ./build
+
   - name: Make directory for pi dev
     file: path=/home/{{user}}/{{pi_project}}/rootfs owner={{user}} state=directory
 
