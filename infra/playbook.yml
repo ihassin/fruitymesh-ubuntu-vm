@@ -2,7 +2,12 @@
 - hosts: fruity
 
   roles:
-#    - { role: kamaln7.swapfile, swapfile_size: 1GB, swapfile_swappiness: 10 }
+    - { role: kamaln7.swapfile, swapfile_size: 1GB, swapfile_swappiness: 10 }
     - common
+    - devenv
+    - nrf51_sdk_8
+    - nrf51_sdk_9
+    - nrf51_sdk_10
+    - nrf52_sdk_092
     - fruity
     - pi

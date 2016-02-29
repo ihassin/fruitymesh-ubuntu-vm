@@ -1,0 +1,65 @@
+---
+  - name: Create directories
+    file: path={{item}} state=directory
+    with_items:
+      - "{{nrf51_sdk_8_dest}}"
+      - "{{nrf}}/tools"
+
+  - name: See if SDK51 was downloaded
+    stat: path={{downloads}}/{{nrf51_sdk_8_zip}}
+    register: sdk_zip
+
+  - name: Download SDK51
+    get_url: url={{nrf51_sdk_8_base_dir}}//{{nrf51_sdk_8_zip}} dest={{downloads}}
+    when: not sdk_zip.stat.exists
+
+  - name: See if SDK51 was installed
+    stat: path={{nrf51_sdk_8_dest}}/components
+    register: sdk_unzipped
+
+  - name: Install SDK51
+    unarchive: src={{downloads}}/{{nrf51_sdk_8_zip}} dest={{nrf51_sdk_8_dest}} mode="u=rw,g=r,o=r" copy=no
+    when: not sdk_unzipped.stat.exists
+
+  - name: Create nrf51 sdk latest symlink
+    file: src={{nrf51_sdk_8_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
+
+  - name: Copy patched header file
+    copy: src=nrf_svc.h dest={{nrf}}/sdk/{{symlink}}/components/softdevice/s130/headers/nrf_svc.h owner={{user}} group={{user}}
+
+  - name: See if JLink is installed
+    shell: "dpkg -l | grep jlink"
+    ignore_errors: true
+    register: jlink_installed
+
+  - name: See if Jlink has already been copied
+    stat: path={{downloads}}/jlink_5.2.4_x86_64.deb
+    register: jlink_copied
+    when: jlink_installed.rc == 1
+
+  - name: Copy JLink
+    copy: src=jlink_5.2.4_x86_64.deb dest={{downloads}}
+    when: jlink_installed.rc == 1 and not jlink_copied.stat.exists
+
+  - name: Install JLink
+    shell: sudo dpkg -i {{downloads}}/jlink_5.2.4_x86_64.deb
+    when: jlink_installed.rc == 1
+
+  - name: Create jlink symlink
+    file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link owner={{user}} group={{user}}
+
+  - name: Include jlink in path
+    lineinfile: dest={{home}}/.bashrc line='export PATH=$PATH:/{{nrf}}/tools:' regexp='export PATH=$PATH:/{{nrf}}/tools:'
+
+  - name: Fix 51 path to GNU
+    lineinfile: dest={{nrf}}/sdk/{{symlink}}/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line="GNU_INSTALL_ROOT := /usr/local/{{toolchain_base}}"
+
+  - name: Remove unnecessary files
+    file: path={{item}} state=absent
+    with_items:
+      - '"{{nrf}}/projects/put your project folders here"'
+
+  - name: Set ownership of our files
+    file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
+    with_items:
+      - "{{nrf}}"

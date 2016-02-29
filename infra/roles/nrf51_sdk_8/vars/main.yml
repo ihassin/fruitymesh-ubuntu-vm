@@ -1,0 +1,15 @@
+---
+user: deploy
+home: "/home/{{user}}"
+nrf: "{{home}}/nrf"
+downloads: "{{home}}/downloads"
+
+toolchain_version: 20150609
+toolchain_base: gcc-arm-none-eabi-4_9-2015q2
+platform: linux
+toolchain_full: "{{toolchain_base}}-{{toolchain_version}}-{{platform}}.tar.bz2"
+
+nrf51_sdk_8_zip: nRF51_SDK_8.1.0_b6ed55f.zip
+nrf51_sdk_8_dest: "{{nrf}}/sdk/nrf51_sdk_8_0"
+nrf51_sdk_8_base_dir: https://developer.nordicsemi.com/nRF5_SDK/nRF51_SDK_v8.x.x/
+symlink: nrf51_sdk_latest

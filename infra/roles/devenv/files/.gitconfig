@@ -1,0 +1,17 @@
+[alias]
+	co = checkout
+	gp = pull --rebase
+[colour]
+    ui = auto
+[push]
+	default = matching
+[core]
+	editor = vi
+[mergetool]
+	keepBackup = true
+[pack]
+	windowMemory = 512m
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true

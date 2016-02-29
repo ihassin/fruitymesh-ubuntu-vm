@@ -1,0 +1,64 @@
+---
+  - name: Install needed packages for the development environment
+    apt: pkg={{item}} state=installed
+    with_items:
+      - build-essential
+      - libbluetooth-dev
+      - bluez
+      - rfkill
+      - bluetooth
+      - lib32z1
+      - lib32ncurses5
+      - unzip
+      - minicom
+      - screen
+      - binutils-avr
+      - binutils-arm-none-eabi
+      - cmake
+
+  - name: Create directories
+    file: path={{item}} state=directory
+    with_items:
+      - "{{downloads}}"
+      - "{{home}}/.bash"
+
+  - name: Update fruitymesh-devenv project from git
+    git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
+
+  - name: See if cross-compiler installed
+    stat: path=/usr/local/{{toolchain_base}}
+    register: cc_installed
+
+  - name: See if cross-compiler copied
+    stat: path="{{downloads}}/{{toolchain_full}}"
+    register: cc_copied
+    when: not cc_installed.stat.exists
+
+  - name: Copy cross compiler
+    copy: src={{toolchain_full}} dest={{downloads}}/{{toolchain_full}}
+    when: not cc_installed.stat.exists and not cc_copied.stat.exists
+
+  - name: Unarchive the cross compiler
+    unarchive: src={{downloads}}/{{toolchain_full}} dest=/usr/local copy=no mode="u=rwx,g=rwx,o=rwx"
+    when: not cc_installed.stat.exists
+
+  - name: Add support for git-aware bash prompt
+    git: repo=git://github.com/jimeh/git-aware-prompt.git dest={{home}}/.bash/git-aware-prompt accept_hostkey=true
+
+  - name: Include git-aware in bashrc
+    lineinfile: dest={{home}}/.bashrc line='export GITAWAREPROMPT=~/.bash/git-aware-prompt' regexp='export GITAWAREPROMPT=~/.bash/git-aware-prompt'
+
+  - name: Include git-aware in bashrc
+    lineinfile: dest={{home}}/.bashrc line='source ~/.bash/git-aware-prompt/main.sh' regexp='source ~/.bash/git-aware-prompt/main.sh'
+
+  - name: Set the git-aware prompt
+    lineinfile: dest={{home}}/.bashrc line='export PS1="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "'
+
+  - name: Copy gitconfig file
+    copy: src=.gitconfig dest={{home}}/.gitconfig owner={{user}} group={{user}}
+
+  - name: Set ownership of our files
+    file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
+    with_items:
+      - "{{downloads}}"
+      - "{{home}}/.bash"

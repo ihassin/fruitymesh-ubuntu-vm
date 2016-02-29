@@ -2,13 +2,11 @@
 user: deploy
 home: "/home/{{user}}"
 nrf: "{{home}}/nrf"
-nrf_sdk_9_0: "{{nrf}}/sdk/nrf_sdk_9_0"
-nrf52_sdk_9_0: "{{nrf}}/sdk/nrf52_sdk_0_9_1"
 downloads: "{{home}}/downloads"
-nrf51_sdk: nRF51_SDK_9.0.0_2e23562.zip
-nrf52_sdk: nRF52_SDK_0.9.2_dbc28c9.zip
+symlink: nrf51_sdk_latest
 
-toolchain_version: 20150609
-toolchain_base: gcc-arm-none-eabi-4_9-2015q2
-platform: linux
-toolchain_full: "{{toolchain_base}}-{{toolchain_version}}-{{platform}}.tar.bz2"
+nrf51_sdk_8_dest: "{{nrf}}/sdk/nrf51_sdk_8_0"
+nrf51_sdk_9_dest: "{{nrf}}/sdk/nrf51_sdk_9_0"
+nrf51_sdk_10_dest: "{{nrf}}/sdk/nrf51_sdk_10_0"
+
+nrf52_sdk_092_dest: "{{nrf}}/sdk/nrf52_sdk_092"
