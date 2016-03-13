@@ -21,7 +21,7 @@
     file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_latest/ARM/CMSIS state=link
 
   - name: Update fruitymesh project from git
-    git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true update=no
+    git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true
 
   - name: Set ownership of our files
     file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
