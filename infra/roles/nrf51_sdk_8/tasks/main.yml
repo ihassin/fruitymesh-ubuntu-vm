@@ -42,8 +42,9 @@
     when: jlink_installed.rc == 1 and not jlink_copied.stat.exists
 
   - name: Install JLink
-    shell: sudo dpkg -i {{downloads}}/jlink_5.2.4_x86_64.deb
+    shell: dpkg -i {{downloads}}/jlink_5.2.4_x86_64.deb
     when: jlink_installed.rc == 1
+    become: true
 
   - name: Create jlink symlink
     file: src=/usr/bin/JLinkExe dest={{nrf}}/tools/jlink state=link owner={{user}} group={{user}}

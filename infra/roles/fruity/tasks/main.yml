@@ -20,6 +20,13 @@
   - name: Create EHAL symlink
     file: src={{nrf}}/sdk/arm_cmsis_4_3/CMSIS dest={{nrf}}/sdk/ehal_latest/ARM/CMSIS state=link
 
+  - name: Fix directory mode
+    file: path={{item}} recurse=yes mode="u=rwx"
+    with_items:
+      - "{{nrf}}/sdk/nrf51_sdk_8_0"
+      - "{{nrf}}/sdk/nrf51_sdk_9_0"
+      - "{{nrf}}/sdk/nrf51_sdk_10_0"
+
   - name: Update fruitymesh project from git
     git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true
 

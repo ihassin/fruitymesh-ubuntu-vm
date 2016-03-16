@@ -14,16 +14,14 @@
       - update-motd
       - vim
 
-  - name: Check if anything needs autoremoving
-    shell: apt-get -y --dry-run autoremove | grep -q "0 to remove"
+  - name: Check if packages need to be autoremoved
+    command: apt-get --dry-run autoremove
     register: check_autoremove
-    ignore_errors: True
     changed_when: False
-    always_run: True
 
   - name: Autoremove unused packages
     command: apt-get -y autoremove
-    when: "check_autoremove.rc != 0"
+    when: "'packages will be REMOVED' in check_autoremove.stdout"
 
   - name: Disable periodic OS update checks
     lineinfile: dest=/etc/apt/apt.conf.d/10periodic regexp="^APT::Periodic::Update-Package-Lists \"1\"" line="APT::Periodic::Update-Package-Lists \"0\";" state=present
