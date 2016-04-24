@@ -8,5 +8,6 @@ symlink: nrf51_sdk_latest
 nrf51_sdk_8_dest: "{{nrf}}/sdk/nrf51_sdk_8_0"
 nrf51_sdk_9_dest: "{{nrf}}/sdk/nrf51_sdk_9_0"
 nrf51_sdk_10_dest: "{{nrf}}/sdk/nrf51_sdk_10_0"
+nrf51_sdk_11_dest: "{{nrf}}/sdk/nrf51_sdk_11_0"
 
 nrf52_sdk_092_dest: "{{nrf}}/sdk/nrf52_sdk_092"

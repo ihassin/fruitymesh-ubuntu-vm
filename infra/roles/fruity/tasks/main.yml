@@ -5,11 +5,14 @@
 #  - name: Set symlink to V8
 #    file: src={{nrf51_sdk_8_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
 
-  - name: Set symlink to V9
-    file: src={{nrf51_sdk_9_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
+#  - name: Set symlink to V9
+#    file: src={{nrf51_sdk_9_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
 
 #  - name: Set symlink to V10
 #    file: src={{nrf51_sdk_10_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
+
+  - name: Set symlink to V11
+    file: src={{nrf51_sdk_11_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
 
 #  - name: Set symlink to NRF52
 #    file: src={{nrf52_sdk_092_dest}} dest={{nrf}}/sdk/{{symlink}} state=link
@@ -26,11 +29,18 @@
       - "{{nrf}}/sdk/nrf51_sdk_8_0"
       - "{{nrf}}/sdk/nrf51_sdk_9_0"
       - "{{nrf}}/sdk/nrf51_sdk_10_0"
+      - "{{nrf}}/sdk/nrf51_sdk_11_0"
 
   - name: Update fruitymesh project from git
-    git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true
+    git: repo=https://github.com/mwaylabs/fruitymesh.git dest={{nrf}}/projects/fruitymesh accept_hostkey=true update=no
 
   - name: Set ownership of our files
     file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
     with_items:
       - "{{nrf}}"
+
+  - name: Remove unnecessary files
+    file: path={{item}} state=absent
+    with_items:
+      - '{{nrf}}/projects/put your project folders here'
+

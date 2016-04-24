@@ -55,11 +55,6 @@
   - name: Fix 51 path to GNU
     lineinfile: dest={{nrf}}/sdk/{{symlink}}/components/toolchain/gcc/Makefile.posix regexp='^GNU_INSTALL_ROOT :=' line="GNU_INSTALL_ROOT := /usr/local/{{toolchain_base}}"
 
-  - name: Remove unnecessary files
-    file: path={{item}} state=absent
-    with_items:
-      - '"{{nrf}}/projects/put your project folders here"'
-
   - name: Set ownership of our files
     file: path={{item}} owner={{user}} group={{user}} recurse=yes state=directory
     with_items:

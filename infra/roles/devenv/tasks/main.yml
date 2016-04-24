@@ -23,7 +23,7 @@
       - "{{home}}/.bash"
 
   - name: Update fruitymesh-devenv project from git
-    git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true
+    git: repo=https://github.com/mwaylabs/fruitymesh-devenv.git dest={{nrf}} accept_hostkey=true force=yes
 
   - name: See if cross-compiler installed
     stat: path=/usr/local/{{toolchain_base}}
