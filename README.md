@@ -253,3 +253,7 @@ Our code of conduct is [here](https://github.com/ihassin/fruitymesh-ubuntu-vm/bl
 # License
 
 MIT
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ihassin/fruitymesh-ubuntu-vm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
