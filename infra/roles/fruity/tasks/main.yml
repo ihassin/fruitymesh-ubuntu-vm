@@ -44,3 +44,31 @@
     with_items:
       - '{{nrf}}/projects/put your project folders here'
 
+  - name: Copy ble_radio_notificatons patched files
+    copy: src={{item}} dest={{nrf51_sdk_11_dest}}/components/ble/ble_radio_notification/{{item}} owner={{user}} group={{user}}
+    with_items:
+      - ble_radio_notification.c
+      - ble_radio_notification.h
+
+  - name: Copy app_uart_fifo patched file
+    copy: src={{item}} dest={{nrf51_sdk_11_dest}}/components/libraries/uart/{{item}} owner={{user}} group={{user}}
+    with_items:
+      - app_uart_fifo.c
+
+  - name: Patch makefile error 1 until PR is accepted
+    lineinfile: dest="{{nrf}}/projects/fruitymesh/makefile"
+      regexp="^SDK_BASE"
+      line="SDK_BASE      := $(HOME)/nrf/sdk/nrf51_sdk_latest"
+      state=present
+
+  - name: Patch makefile error 2 until PR is accepted
+    lineinfile: dest="{{nrf}}/projects/fruitymesh/makefile"
+      regexp="^EHAL_PATH"
+      line="EHAL_PATH     := $(HOME)/nrf/sdk/ehal_latest"
+      state=present
+
+  - name: Patch main.cpp to not redefine app_error_handler. Danger! Just a hack
+    copy: src={{item}} dest={{nrf}}/projects/fruitymesh/src/{{item}} owner={{user}} group={{user}}
+    with_items:
+      - Main.cpp
+

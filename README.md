@@ -252,8 +252,4 @@ Our code of conduct is [here](https://github.com/ihassin/fruitymesh-ubuntu-vm/bl
 
 # License
 
-MIT
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ihassin/fruitymesh-ubuntu-vm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
+[MIT](https://en.wikipedia.org/wiki/MIT_License) except where [FruityMesh](https://github.com/mwaylabs/fruitymesh) or [Nordic Semiconductors](http://www.nordicsemi.com) licenses apply.
