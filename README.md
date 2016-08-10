@@ -93,6 +93,14 @@ vagrant plugin install vagrant-parallels
 vagrant plugin install virtualbox
 ```
 
+### Selecting the right SDK for your project
+
+By default, the script will install Nordic SDK V11. If you want to use another version, please edit the following file:
+infra/roles/fruity/tasks/main.yml, comment out the V11 lines, and uncomment the lines for the SDK you want to use.
+
+
+### Bring up the VM
+
 You can then bring up the box for configuring by issuing the following command:
 
 ```
