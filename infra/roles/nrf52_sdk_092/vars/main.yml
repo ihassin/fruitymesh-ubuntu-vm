@@ -11,5 +11,5 @@ toolchain_full: "{{toolchain_base}}-{{toolchain_version}}-{{platform}}.tar.bz2"
 
 nrf52_sdk_092_zip: nRF52_SDK_0.9.2_dbc28c9.zip
 nrf52_sdk_092_dest: "{{nrf}}/sdk/nrf52_sdk_092"
-nrf52_sdk_092_base_dir: http://developer.nordicsemi.com/nRF52_SDK/nRF52_SDK_v0.x.x/
+nrf52_sdk_092_base_dir: https://raw.githubusercontent.com/ihassin/fruitymesh-mac-osx/master/infra/roles/devenv/files
 symlink: nrf52_sdk_latest
