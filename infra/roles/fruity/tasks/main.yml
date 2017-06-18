@@ -56,13 +56,13 @@
       - app_uart_fifo.c
 
   - name: Patch makefile error 1 until PR is accepted
-    lineinfile: dest="{{nrf}}/projects/fruitymesh/makefile"
+    lineinfile: dest="{{nrf}}/projects/fruitymesh/Makefile"
       regexp="^SDK_BASE"
       line="SDK_BASE      := $(HOME)/nrf/sdk/nrf51_sdk_latest"
       state=present
 
   - name: Patch makefile error 2 until PR is accepted
-    lineinfile: dest="{{nrf}}/projects/fruitymesh/makefile"
+    lineinfile: dest="{{nrf}}/projects/fruitymesh/Makefile"
       regexp="^EHAL_PATH"
       line="EHAL_PATH     := $(HOME)/nrf/sdk/ehal_latest"
       state=present
